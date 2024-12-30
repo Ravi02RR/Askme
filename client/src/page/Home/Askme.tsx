@@ -105,7 +105,7 @@ const Askme = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/ask",
+        "https://askme-8puo.onrender.com/api/v1/ask",
         { question: input },
         { withCredentials: true }
       );

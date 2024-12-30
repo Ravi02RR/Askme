@@ -32,7 +32,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async () => {
     await axios.post(
-      "http://localhost:3000/api/v1/auth/logout",
+      "https://askme-8puo.onrender.com/api/v1/auth/logout",
       {},
       {
         withCredentials: true,

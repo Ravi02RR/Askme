@@ -120,7 +120,7 @@ const History = () => {
     const fetchHistory = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/history",
+          "https://askme-8puo.onrender.com/api/v1/history",
           {
             withCredentials: true,
           }
