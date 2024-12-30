@@ -112,6 +112,8 @@ app.get("/api/v1/health", (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
 }));
+const apidoc_1 = __importDefault(require("../doc/apidoc"));
+app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(apidoc_1.default));
 const path_1 = __importDefault(require("path"));
 app.use(express_1.default.static(path_1.default.join(__dirname, "../../dist/dist")));
 app.get("*", (req, res) => {
@@ -137,6 +139,4 @@ const ai_route_1 = __importDefault(require("../route/ai.route"));
 app.use("/api/v1/auth", authLimiter, user_route_1.default);
 //@ts-ignore
 app.use("/api/v1", userAuthmiddleware_1.userAuthMiddleware, ai_route_1.default);
-const apidoc_1 = __importDefault(require("../doc/apidoc"));
-app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(apidoc_1.default));
 exports.default = app;

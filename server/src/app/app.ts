@@ -108,6 +108,9 @@ app.get("/api/v1/health", async (req: Request, res: Response) => {
   }
 });
 
+import apiDoc from "../doc/apidoc";
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(apiDoc));
+
 import path from "path";
 
 app.use(express.static(path.join(__dirname, "../../dist/dist")));
@@ -143,8 +146,5 @@ import aiRoute from "../route/ai.route";
 app.use("/api/v1/auth", authLimiter, userRouter);
 //@ts-ignore
 app.use("/api/v1", userAuthMiddleware, aiRoute);
-
-import apiDoc from "../doc/apidoc";
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(apiDoc));
 
 export default app;
