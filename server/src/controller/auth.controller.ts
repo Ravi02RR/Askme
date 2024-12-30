@@ -67,7 +67,12 @@ export const signin = async (
 
     return res
       .status(200)
-      .cookie("token", token)
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        //@ts-ignore
+        sameSite: "Lax",
+      })
       .json({
         message: "Signin successful.",
         user: { id: foundUser._id, username: foundUser.username },
@@ -78,4 +83,9 @@ export const signin = async (
       message: err.message || "An unexpected error occurred.",
     });
   }
+};
+
+export const logout = (req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logged out successfully." });
 };

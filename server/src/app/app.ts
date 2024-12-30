@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import swaggerUi from "swagger-ui-express";
 import rateLimit from "express-rate-limit";
 import mongoose from "mongoose";
@@ -12,6 +12,17 @@ import { userAuthMiddleware } from "../middleware/userAuthmiddleware";
 import { DatabaseHealth, HealthStatus } from "../utils/interface";
 
 const app = express();
+//@ts-ignore
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Create a limiter
 const limiter = rateLimit({
@@ -83,8 +94,6 @@ const checkServices = async (): Promise<HealthStatus> => {
   }
 };
 
-
-
 app.get("/api/v1/health", async (req: Request, res: Response) => {
   try {
     const healthStatus = await checkServices();
@@ -99,11 +108,19 @@ app.get("/api/v1/health", async (req: Request, res: Response) => {
   }
 });
 
+import path from "path";
+
+app.use(express.static(path.join(__dirname, "../../dist/dist")));
+
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../dist/dist/index.html"));
+});
+
 app.use(limiter);
 
 const authLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 5,
+  max: 1000,
   message: "Too many login attempts, please try again later",
   standardHeaders: true,
   legacyHeaders: false,
@@ -111,7 +128,7 @@ const authLimiter = rateLimit({
 
 app.use(
   cors({
-    origin: "*",
+    origin: ["htpp://localhost:5173"],
     credentials: true,
   })
 );
