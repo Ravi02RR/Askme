@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.history = exports.getAians = void 0;
+exports.gethistory = exports.getAians = void 0;
 const history_1 = require("../model/history");
 const gemaniresponse_1 = require("../utils/gemaniresponse");
 const getAians = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,10 +31,13 @@ const getAians = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAians = getAians;
-const history = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const gethistory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //@ts-ignore
+        console.log(req.userID);
+        //@ts-ignore
         let historydata = yield history_1.historyModel.find({ user: req.userID });
+        console.log(historydata);
         res.status(200).json({
             historydata,
         });
@@ -43,4 +46,4 @@ const history = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ message: "internal server error" });
     }
 });
-exports.history = history;
+exports.gethistory = gethistory;

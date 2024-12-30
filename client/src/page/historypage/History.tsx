@@ -4,6 +4,14 @@ import MarkdownPreview from "@uiw/react-markdown-preview";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 
+interface Message {
+  _id: string;
+  question: string;
+  ans: string;
+  createdAt: string;
+  user: string;
+}
+
 interface MessageProps {
   content: string;
   type: "user" | "assistant";
@@ -13,9 +21,7 @@ const Message = ({ content, type }: MessageProps) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    className={`flex gap-3 ${
-      type === "user" ? "justify-end" : "justify-start"
-    }`}
+    className={`flex gap-3 ${type === "user" ? "justify-end" : "justify-start"}`}
   >
     {type === "assistant" && (
       <motion.div whileHover={{ scale: 1.1 }}>
@@ -52,14 +58,11 @@ const Message = ({ content, type }: MessageProps) => (
   </motion.div>
 );
 
-interface Message {
-  question: string;
-  ans: string;
-  createdAt: string;
-  _id: string;
+interface ChatThreadProps {
+  message: Message;
 }
 
-const ChatThread = ({ messages }: { messages: Message[] }) => {
+const ChatThread = ({ message }: ChatThreadProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -74,11 +77,9 @@ const ChatThread = ({ messages }: { messages: Message[] }) => {
         className="w-full p-5 flex items-center justify-between text-left hover:bg-gray-50 rounded-xl transition-colors"
       >
         <div className="space-y-1">
-          <div className="font-medium line-clamp-1">
-            {messages[0]?.question}
-          </div>
+          <div className="font-medium line-clamp-1">{message.question}</div>
           <div className="text-sm text-gray-500">
-            {new Date(messages[0]?.createdAt).toLocaleString()}
+            {new Date(message.createdAt).toLocaleString()}
           </div>
         </div>
         <motion.div
@@ -100,8 +101,8 @@ const ChatThread = ({ messages }: { messages: Message[] }) => {
           >
             <div className="p-5 border-t bg-gray-50">
               <div className="space-y-6">
-                <Message type="user" content={messages[0]?.question} />
-                <Message type="assistant" content={messages[0]?.ans} />
+                <Message type="user" content={message.question} />
+                <Message type="assistant" content={message.ans} />
               </div>
             </div>
           </motion.div>
@@ -115,20 +116,21 @@ const History = () => {
   const [history, setHistory] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(
-          "https://askme-8puo.onrender.com/api/v1/history",
+        const response = await axios.get<{ historydata: Message[] }>(
+          "http://localhost:3000/api/v1/history",
           {
             withCredentials: true,
           }
         );
-        console.log(response.data);
-        setHistory(response.data.historydata);
+        setHistory(response.data.historydata.reverse());
       } catch (error) {
         console.error("Error fetching history:", error);
+        setError("Failed to load chat history. Please try again later.");
       } finally {
         setIsLoading(false);
       }
@@ -137,8 +139,8 @@ const History = () => {
     fetchHistory();
   }, []);
 
-  const filteredHistory = history.filter((thread) =>
-    thread.question.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredHistory = history.filter((message) =>
+    message.question.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isLoading) {
@@ -156,6 +158,14 @@ const History = () => {
           }}
           className="rounded-full h-10 w-10 border-3 border-b-black"
         />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-red-500">{error}</div>
       </div>
     );
   }
@@ -180,8 +190,8 @@ const History = () => {
           </div>
         </div>
         <div className="space-y-4">
-          {filteredHistory.map((thread) => (
-            <ChatThread key={thread._id} messages={[thread]} />
+          {filteredHistory.map((message) => (
+            <ChatThread key={message._id} message={message} />
           ))}
         </div>
       </div>

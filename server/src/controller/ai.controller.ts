@@ -21,12 +21,15 @@ export const getAians = async (req: Request, res: Response) => {
   }
 };
 
-export const history = async (req: Request, res: Response) => {
+export const gethistory = async (req: Request, res: Response) => {
   try {
     //@ts-ignore
+    console.log(req.userID);
+    //@ts-ignore
     let historydata = await historyModel.find({ user: req.userID });
+    console.log(historydata);
     res.status(200).json({
-        historydata,
+      historydata,
     });
   } catch (err) {
     res.status(500).json({ message: "internal server error" });

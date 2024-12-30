@@ -26,7 +26,14 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/health" element={<Health />} />
+            <Route
+              path="/health"
+              element={
+                <ErrorBoundary>
+                  <Health />
+                </ErrorBoundary>
+              }
+            />
 
             <Route
               path="/ask"

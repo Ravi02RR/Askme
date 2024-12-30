@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { getAians, history } from "../controller/ai.controller";
+import { getAians, gethistory } from "../controller/ai.controller";
 
 const aiRoute = Router();
 
 aiRoute.post("/ask", getAians);
 //@ts-ignore
-aiRoute.get("/history", history);
+aiRoute.get("/history", gethistory);
 
 export default aiRoute;

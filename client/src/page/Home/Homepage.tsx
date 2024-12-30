@@ -41,10 +41,7 @@ const Homepage = () => {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={() =>
-                    window.open(
-                      "https://askme-8puo.onrender.com/api-docs",
-                      "_blank"
-                    )
+                    window.open("http://localhost:3000/api-docs", "_blank")
                   }
                   className="px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
                 >
@@ -67,7 +64,7 @@ const Homepage = () => {
                     type="text"
                     placeholder="Ask anything... (e.g., 'How does photosynthesis work?')"
                     className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-black focus:border-transparent transition-all"
-                    onFocus={() => navigate("/ask")} // Navigate to /ask on focus
+                    onFocus={() => navigate("/ask")}
                   />
                 </div>
               </div>

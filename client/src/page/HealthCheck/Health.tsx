@@ -51,9 +51,7 @@ const Health = () => {
   const fetchHealthData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://askme-8puo.onrender.com/api/v1/health"
-      );
+      const response = await axios.get("http://localhost:3000/api/v1/health");
       setHealthData(response.data);
       setError(null);
     } catch (err) {
@@ -67,7 +65,7 @@ const Health = () => {
 
   useEffect(() => {
     fetchHealthData();
-    const interval = setInterval(fetchHealthData, 30000); // Refresh every 30 seconds
+    const interval = setInterval(fetchHealthData, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -99,7 +97,7 @@ const Health = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4">
+      <div className="min-h-screen bg-gray-50 p-4 mt-20">
         <div className="max-w-6xl mx-auto">
           <div className="bg-red-50 p-4 rounded-lg border border-red-100">
             <p className="text-red-600 flex items-center gap-2">

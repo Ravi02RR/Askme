@@ -14,7 +14,7 @@ import { DatabaseHealth, HealthStatus } from "../utils/interface";
 const app = express();
 //@ts-ignore
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Origin", "https://askme-8puo.onrender.com");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -111,14 +111,6 @@ app.get("/api/v1/health", async (req: Request, res: Response) => {
 import apiDoc from "../doc/apidoc";
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(apiDoc));
 
-import path from "path";
-
-app.use(express.static(path.join(__dirname, "../../dist/dist")));
-
-app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../dist/dist/index.html"));
-});
-
 app.use(limiter);
 
 const authLimiter = rateLimit({
@@ -131,11 +123,7 @@ const authLimiter = rateLimit({
 
 app.use(
   cors({
-    origin: [
-      "htpp://localhost:5173",
-      "http://localhost:3000",
-      "https://askme-8puo.onrender.com/",
-    ],
+    origin: ["http://localhost:5173"],
     credentials: true,
   })
 );
@@ -151,4 +139,11 @@ app.use("/api/v1/auth", authLimiter, userRouter);
 //@ts-ignore
 app.use("/api/v1", userAuthMiddleware, aiRoute);
 
+import path from "path";
+
+app.use(express.static(path.join(__dirname, "../../dist/dist")));
+
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../dist/dist/index.html"));
+});
 export default app;

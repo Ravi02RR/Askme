@@ -24,7 +24,7 @@ const userAuthmiddleware_1 = require("../middleware/userAuthmiddleware");
 const app = (0, express_1.default)();
 //@ts-ignore
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://askme-8puo.onrender.com");
+    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -114,11 +114,6 @@ app.get("/api/v1/health", (req, res) => __awaiter(void 0, void 0, void 0, functi
 }));
 const apidoc_1 = __importDefault(require("../doc/apidoc"));
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(apidoc_1.default));
-const path_1 = __importDefault(require("path"));
-app.use(express_1.default.static(path_1.default.join(__dirname, "../../dist/dist")));
-app.get("*", (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, "../../dist/dist/index.html"));
-});
 app.use(limiter);
 const authLimiter = (0, express_rate_limit_1.default)({
     windowMs: 60 * 60 * 1000,
@@ -128,11 +123,7 @@ const authLimiter = (0, express_rate_limit_1.default)({
     legacyHeaders: false,
 });
 app.use((0, cors_1.default)({
-    origin: [
-        "htpp://localhost:5173",
-        "http://localhost:3000",
-        "https://askme-8puo.onrender.com/",
-    ],
+    origin: ["http://localhost:5173"],
     credentials: true,
 }));
 app.use(express_1.default.json());
@@ -143,4 +134,9 @@ const ai_route_1 = __importDefault(require("../route/ai.route"));
 app.use("/api/v1/auth", authLimiter, user_route_1.default);
 //@ts-ignore
 app.use("/api/v1", userAuthmiddleware_1.userAuthMiddleware, ai_route_1.default);
+const path_1 = __importDefault(require("path"));
+app.use(express_1.default.static(path_1.default.join(__dirname, "../../dist/dist")));
+app.get("*", (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, "../../dist/dist/index.html"));
+});
 exports.default = app;

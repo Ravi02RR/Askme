@@ -18,7 +18,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "https://askme-8puo.onrender.com/api/v1/auth/signup",
+        "http://localhost:3000/api/v1/auth/signup",
         {
           username,
           password,
