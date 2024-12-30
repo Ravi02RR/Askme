@@ -131,7 +131,11 @@ const authLimiter = rateLimit({
 
 app.use(
   cors({
-    origin: ["htpp://localhost:5173"],
+    origin: [
+      "htpp://localhost:5173",
+      "http://localhost:3000",
+      "https://askme-8puo.onrender.com/",
+    ],
     credentials: true,
   })
 );

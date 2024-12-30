@@ -128,7 +128,11 @@ const authLimiter = (0, express_rate_limit_1.default)({
     legacyHeaders: false,
 });
 app.use((0, cors_1.default)({
-    origin: ["htpp://localhost:5173"],
+    origin: [
+        "htpp://localhost:5173",
+        "http://localhost:3000",
+        "https://askme-8puo.onrender.com/",
+    ],
     credentials: true,
 }));
 app.use(express_1.default.json());

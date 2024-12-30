@@ -125,6 +125,7 @@ const History = () => {
             withCredentials: true,
           }
         );
+        console.log(response.data);
         setHistory(response.data.historydata.reverse());
       } catch (error) {
         console.error("Error fetching history:", error);
