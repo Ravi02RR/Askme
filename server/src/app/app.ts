@@ -83,29 +83,7 @@ const checkServices = async (): Promise<HealthStatus> => {
   }
 };
 
-export const connectToDb = async (uri: string): Promise<void> => {
-  try {
-    await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 5000,
-    });
-    console.log("Database connected");
 
-    mongoose.connection.on("error", (err: Error) => {
-      console.error("MongoDB connection error:", err);
-    });
-
-    mongoose.connection.on("disconnected", () => {
-      console.log("MongoDB disconnected");
-    });
-
-    mongoose.connection.on("reconnected", () => {
-      console.log("MongoDB reconnected");
-    });
-  } catch (error) {
-    console.error("Database connection failed:", error);
-    throw error;
-  }
-};
 
 app.get("/api/v1/health", async (req: Request, res: Response) => {
   try {
