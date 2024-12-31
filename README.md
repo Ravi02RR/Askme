@@ -14,8 +14,8 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo-link
-   cd your-project-directory
+   [git clone https://github.com/your-repo-link](https://github.com/Ravi02RR/Askme.git)
+   cd Askme
    ```
 
 2. Navigate to the `client` folder and install dependencies:
