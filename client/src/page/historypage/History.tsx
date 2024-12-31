@@ -21,7 +21,9 @@ const Message = ({ content, type }: MessageProps) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    className={`flex gap-3 ${type === "user" ? "justify-end" : "justify-start"}`}
+    className={`flex gap-3 ${
+      type === "user" ? "justify-end" : "justify-start"
+    }`}
   >
     {type === "assistant" && (
       <motion.div whileHover={{ scale: 1.1 }}>
@@ -122,7 +124,7 @@ const History = () => {
     const fetchHistory = async () => {
       try {
         const response = await axios.get<{ historydata: Message[] }>(
-          "http://localhost:3000/api/v1/history",
+          "http://task.devguy.live/api/v1/history",
           {
             withCredentials: true,
           }

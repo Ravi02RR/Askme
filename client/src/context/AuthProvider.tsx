@@ -32,7 +32,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async () => {
     await axios.post(
-      "http://localhost:3000/api/v1/auth/logout",
+      "http://task.devguy.live/api/v1/auth/logout",
       {},
       {
         withCredentials: true,
