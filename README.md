@@ -14,7 +14,7 @@
 
 1. Clone the repository:
    ```bash
-   [git clone https://github.com/your-repo-link](https://github.com/Ravi02RR/Askme.git)
+   git clone https://github.com/Ravi02RR/Askme.git
    cd Askme
    ```
 
