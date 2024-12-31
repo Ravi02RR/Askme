@@ -22,9 +22,16 @@ const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const userAuthmiddleware_1 = require("../middleware/userAuthmiddleware");
 const app = (0, express_1.default)();
+const allowedOrigins = [
+    "https://askme-ovde.vercel.app",
+    "https://task.devguy.live/",
+];
 //@ts-ignore
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+    const origin = req.headers.origin;
+    if (origin && allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -123,7 +130,7 @@ const authLimiter = (0, express_rate_limit_1.default)({
     legacyHeaders: false,
 });
 app.use((0, cors_1.default)({
-    origin: ["http://localhost:5173"],
+    origin: ["https://askme-ovde.vercel.app"],
     credentials: true,
 }));
 app.use(express_1.default.json());

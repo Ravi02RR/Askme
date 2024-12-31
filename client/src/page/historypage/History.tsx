@@ -124,7 +124,7 @@ const History = () => {
     const fetchHistory = async () => {
       try {
         const response = await axios.get<{ historydata: Message[] }>(
-          "http://task.devguy.live/api/v1/history",
+          "https://task.devguy.live/api/v1/history",
           {
             withCredentials: true,
           }

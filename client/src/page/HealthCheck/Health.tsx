@@ -51,7 +51,9 @@ const Health = () => {
   const fetchHealthData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://task.devguy.live/api/v1/health");
+      const response = await axios.get(
+        "https://task.devguy.live/api/v1/health"
+      );
       setHealthData(response.data);
       setError(null);
     } catch (err) {

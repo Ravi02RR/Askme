@@ -12,9 +12,17 @@ import { userAuthMiddleware } from "../middleware/userAuthmiddleware";
 import { DatabaseHealth, HealthStatus } from "../utils/interface";
 
 const app = express();
+
+const allowedOrigins = [
+  "https://askme-ovde.vercel.app",
+  "https://task.devguy.live/",
+];
 //@ts-ignore
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -123,7 +131,7 @@ const authLimiter = rateLimit({
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://askme-ovde.vercel.app", "https://task.devguy.live"],
     credentials: true,
   })
 );

@@ -18,7 +18,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://task.devguy.live/api/v1/auth/signup",
+        "https://task.devguy.live/api/v1/auth/signup",
         {
           username,
           password,

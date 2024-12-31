@@ -41,7 +41,7 @@ const Homepage = () => {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={() =>
-                    window.open("http://task.devguy.live/api-docs", "_blank")
+                    window.open("https://task.devguy.live/api-docs", "_blank")
                   }
                   className="px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
                 >

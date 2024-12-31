@@ -105,7 +105,7 @@ const Askme = () => {
 
     try {
       const response = await axios.post(
-        "http://task.devguy.live/api/v1/ask",
+        "https://task.devguy.live/api/v1/ask",
         { question: input },
         { withCredentials: true }
       );
